@@ -1,0 +1,42 @@
+{
+    "JobName": "DataSet1",
+    "JobType": "ApsimWgp",
+    "Parameters": {
+        "Iterations": 2000,
+        "BurnIn": 100,
+        "Thinning": 30,
+        "TuneLength": 100,
+        "TuneWeight": 0.5,
+        "MHSteps": 1
+    },
+    "Phenotypes": [
+        "yield"
+    ],
+    "TrainingEnvsFile": "TrainingEnvs.csv",
+    "PredictionEnvsFile": "PredictionEnvs.csv",
+    "TraitPriorsFile": "TraitPriors.csv",
+    "TraitValuesFile": "TraitValues.csv",
+    "MarkersFile": "Markers.csv",
+    "TrainingGenotypesFile": "TrainingGenos.csv",
+    "TrainingGenosBeginningRow": 1,
+    "TrainingGenosEndRow": 1,
+    "PhenotypesFile": "Phenotype.csv",
+    "PhenotypesColumn": "yield_0_8",
+    "ReportDetails": [
+        {
+            "ReportName": "Report",
+            "Fields": [
+                "BiomassWt",
+                "Yield"
+            ],
+            "TextFields": []
+        }
+    ],
+    "WaitForJobsTimeoutSeconds": 60000,
+    "ApsimPath": "ApsimDS1.zip",
+    "Inputs": [
+        "[Sorghum].Leaf.Parameters.tillerSdIntercept.FixedValue",
+        "[Sorghum].Leaf.Parameters.aMaxSlope.FixedValue",
+        "[Sorghum].Phenology.TTEndJuvToInit.FixedValue"
+    ]
+}

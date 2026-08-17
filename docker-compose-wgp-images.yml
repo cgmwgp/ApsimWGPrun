@@ -1,0 +1,159 @@
+services:
+  cgmrelay:
+    image: cgmwgp/cgmrelay:latest
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - RELAY_IP_FILE=/relay-volume/relay_ip.txt
+      - HPC_ID=debug
+      - WORKER_ID=relay
+      - HPC_ROOT_DIR=/hpc-root
+      - TOTAL_CLIENTS=5
+    ports:
+      - "80"
+      - "5555:5555"
+      - "5557"
+      - "5558"
+    volumes:
+      - ./relay-volume:/relay-volume
+      - ./hpc-root:/hpc-root
+    networks:
+      - q-network
+
+  cgmclient1:
+    image: cgmwgp/cgmclient:latest
+    depends_on:
+      - cgmrelay
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - RELAY_IP_FILE=/relay-volume/relay_ip.txt
+      - HPC_ID=debug
+      - WORKER_ID=worker_1
+      - HPC_ROOT_DIR=/hpc-root
+    ports:
+      - "80"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+      - ./relay-volume:/relay-volume
+      - ./hpc-root:/hpc-root
+    networks:
+      - q-network
+
+  cgmclient2:
+    image: cgmwgp/cgmclient:latest
+    depends_on:
+      - cgmrelay
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - RELAY_IP_FILE=/relay-volume/relay_ip.txt
+      - HPC_ID=debug
+      - WORKER_ID=worker_2
+      - HPC_ROOT_DIR=/hpc-root
+    ports:
+      - "80"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+      - ./relay-volume:/relay-volume
+      - ./hpc-root:/hpc-root
+    networks:
+      - q-network
+
+  cgmclient3:
+    image: cgmwgp/cgmclient:latest
+    depends_on:
+      - cgmrelay
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - RELAY_IP_FILE=/relay-volume/relay_ip.txt
+      - HPC_ID=debug
+      - WORKER_ID=worker_3
+      - HPC_ROOT_DIR=/hpc-root
+    ports:
+      - "80"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+      - ./relay-volume:/relay-volume
+      - ./hpc-root:/hpc-root
+    networks:
+      - q-network
+
+  cgmclient4:
+    image: cgmwgp/cgmclient:latest
+    depends_on:
+      - cgmrelay
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - RELAY_IP_FILE=/relay-volume/relay_ip.txt
+      - HPC_ID=debug
+      - WORKER_ID=worker_4
+      - HPC_ROOT_DIR=/hpc-root
+    ports:
+      - "80"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+      - ./relay-volume:/relay-volume
+      - ./hpc-root:/hpc-root
+    networks:
+      - q-network
+
+  cgmclient5:
+    image: cgmwgp/cgmclient:latest
+    depends_on:
+      - cgmrelay
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - RELAY_IP_FILE=/relay-volume/relay_ip.txt
+      - HPC_ID=debug
+      - WORKER_ID=worker_5
+      - HPC_ROOT_DIR=/hpc-root
+    ports:
+      - "80"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+      - ./relay-volume:/relay-volume
+      - ./hpc-root:/hpc-root
+    networks:
+      - q-network
+
+  apsimwgp:
+    image: cgmwgp/apsimwgp:latest
+    depends_on:
+      - cgmclient1
+      - cgmclient2
+      - cgmclient3
+      - cgmclient4
+      - cgmclient5
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - RELAY_IP_FILE=/relay-volume/relay_ip.txt
+      - HPC_ID=debug
+      - WORKER_ID=apsimwgp
+      - HPC_ROOT_DIR=/hpc-root
+    ports:
+      - "80"
+      - "443"
+      - "27746"
+      - "5000"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ./relay-volume:/relay-volume
+      - ./hpc-root:/hpc-root
+    networks:
+      - q-network  
+
+networks:
+  q-network:
+    name: custom_qnetwork
+    external: false
