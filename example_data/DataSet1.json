@@ -32,7 +32,7 @@
             "TextFields": []
         }
     ],
-    "WaitForJobsTimeoutSeconds": 60000,
+    "WaitForJobsTimeoutSeconds": 600000,
     "ApsimPath": "ApsimDS1.zip",
     "Inputs": [
         "[Sorghum].Leaf.Parameters.tillerSdIntercept.FixedValue",
